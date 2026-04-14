@@ -1,0 +1,23 @@
+flowchart TD
+    A([🚀 Start]) --> B[Environment Setup\nInstall dependencies\ndatasets · tokenizers · transformers]
+    B --> C[Load WikiText-2-v1\nSalesforce/wikitext\n~44.8k rows total]
+    C --> D[Explore Dataset\nStats · Length distributions\nCharacter frequency]
+    D --> E[Data Cleaning\nRemove unk tokens · headers\nNormalize whitespace]
+    E --> F[Deduplication\nExact-match dedup\non training split]
+    F --> G[Initialize BPE Tokenizer\nNFD → Lowercase → StripAccents\nWhitespace pre-tokenizer]
+    G --> H[Configure BPE Trainer\nVocab size: 30,000\nSpecial tokens: PAD UNK CLS SEP MASK\nMin frequency: 2]
+    H --> I[Train Tokenizer\ntrain_from_iterator\non clean training corpus]
+    I --> J[Add Post-Processor\nCLS ... SEP template\nEnable padding]
+    J --> K[Sanity Check\nEncode · Decode\nsample sentences]
+    K --> L[Evaluate on Val & Test\nAvg tokens/sentence\nCompression ratio\nUNK-free coverage\nConsistency check]
+    L --> M[Visualizations\nVocab composition\nToken distributions\nEvaluation plots]
+    M --> N[Save Tokenizer\nHuggingFace-compatible format\ncustom_bpe_tokenizer/]
+    N --> O[Reload & Verify\nPreTrainedTokenizerFast\nEncode · Decode demo]
+    O --> P([✅ Done])
+
+    style A fill:#4CAF50,color:#fff
+    style P fill:#4CAF50,color:#fff
+    style C fill:#2196F3,color:#fff
+    style I fill:#FF9800,color:#fff
+    style L fill:#00BCD4,color:#fff
+    style N fill:#9C27B0,color:#fff
